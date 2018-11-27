@@ -1,0 +1,34 @@
+/*Geschwindigkeits Slider für Chrome und Firefox*/
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 40px;
+    color: #008CBA;
+    direction: rtl;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 0;
+    border-radius: 6px;
+    background: #008CBA;
+    cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+
+    height: 2px;
+    background: #cccccc;
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background: #008CBA;
+    cursor: pointer;
+}

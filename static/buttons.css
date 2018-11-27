@@ -1,0 +1,45 @@
+/*Buttons and styling*/
+button{
+    text-align: center;
+	width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 2px;
+}
+
+/*Bewegung rechts links vor zurück*/
+.move {
+    border: 4px solid #4CAF50;
+    color: #4CAF50;
+    font-size: 5vw;
+    font-weight: 900;
+}
+
+.move:active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.setting {
+    border: 2px solid #008CBA;
+    color: #008CBA;
+    font-size: 1.7vw;
+}
+
+.setting:active {
+    background-color: #008CBA;
+    color: white;
+}
+
+.delete {
+    border: 2px solid #850000;
+    color: #850000;
+    font-size: 1.7vw;
+    width: 40px;
+    vertical-align: middle
+}
+
+.delete:active {
+    background-color: #850000;
+    color: white;
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Roboter | Steuerung</title>
+    <meta name="author" content="Hannes Z">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="../static/layout.css" />
+    <link rel="stylesheet" href="../static/buttons.css" />
+    <link rel="stylesheet" href="../static/input.css" />
+    <link rel="stylesheet" href="../static/slider.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script>
+			var isTouchSupported = 'ontouchstart' in window;
+			var startPressEvent = isTouchSupported ? "touchstart" : "mousedown";
+			var stopPressEvent = isTouchSupported ? "touchend" : "mouseup";
+
+			function move(e) {
+					$.post("move/"+$(this).attr('id'));
+					e.stopPropagation();
+			}
+
+			function stop(e) {
+					$.post("move/stop");
+					e.stopPropagation();
+			}
+
+			function makeControl(domElementId) {
+				$(domElementId).bind(startPressEvent, move).bind(stopPressEvent, stop);
+			}
+
+			$(document).ready(function() {
+				makeControl("#forward");
+				makeControl("#backward");
+				makeControl("#turnLeft");
+				makeControl("#turnRight");
+			});
+
+			<!--reset radar image-->
+            function radar_erase() {
+                document.getElementById("radar_img").src = "/static/radar_sweep.gif";
+                console.log("RadarImage reset");
+			}
+            setInterval(radar_erase,60000);
+    </script>
+</head>
+
+<body>
+    <div class="grid2x2">
+
+        <div><img class="centered-and-cropped" width="100%" height="100%" src="{{ url_for('video_feed') }}"></div>
+
+        <div style="margin: 2vw 0 0 0;">
+            <div class="flex-container1">
+                <div class="flex-movecross"></div>
+                <div class="flex-movecross"> <button id="forward" class="button move">&mapstoup;</button> </div>
+                <div class="flex-movecross"></div>
+
+                <div class="flex-movecross"> <button id="turnLeft" class="button move">&cularr;</button></div>
+                <div class="flex-movecross"></div>
+                <div class="flex-movecross"> <button id="turnRight" class="button move">&curarr;</button></div>
+
+                <div class="flex-movecross"> </div>
+                <div class="flex-movecross"> <button id="backward" class="button move">&mapstodown;</button></div>
+                <div class="flex-movecross"></div>
+                <input id="speed_slider" type="range" min="0.002" max="0.05" value="0.002" step="0.001"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-container2">
+        <div class="flex-setting"><button id="cam_btn" class="button setting">Kamera an/aus</button></div>
+        <div class="flex-setting">
+            <input id="savename" type="text" style="width:460px; height:35px; vertical-align: middle">
+            <button id="save_btn" class="button setting" style="width:125px; vertical-align: middle">Speichern</button>
+            <button id="delete_btn" class="button delete">X</button>
+        </div>
+        <div class="flex-setting">
+            <select id="loadname" method="GET" action="/" style="width:465px; height:40px; vertical-align: middle">
+                    {%  for program in programs%}
+                    <option value="{{program}}" SELECTED>{{ program }}</option>
+                    {% endfor %}
+            </select>
+            <button id="load_btn" class="button setting" style="width: 170px; vertical-align: middle">Laden</button>
+        </div>
+        <div class="flex-setting"><button id="radar_btn" class="button setting">Radaraufnahme</button></div>
+        <div class="flex-setting" style="text-align: center;"><img id="radar_img" width="350px" height="350px" alt="/static/radar_sweep.gif"></div>
+    </div>
+
+
+
+
+<script>
+            var speed_slider = document.getElementById("speed_slider");
+			speed_slider.onchange= function(){
+			    var speed = speed_slider.value;
+                $.post("speed_slider/"+speed);
+			}
+
+			var save_button = document.getElementById("save_btn");
+			save_button.onclick = function() {
+			    var name = document.getElementById("savename").value;
+			    $.post("save_program/"+name);
+            }
+
+            var run_button = document.getElementById("load_btn");
+			run_button.onclick = function() {
+			    var name = document.getElementById("loadname").value;
+			    $.post("run_program/"+name);
+            }
+
+            document.getElementById("cam_btn").onclick = function () {
+			    $.post("video_feed");
+            }
+
+            var not_aus = document.getElementById("delete_btn");
+			not_aus.onclick = function() {
+			    $.post("delete");
+            }
+
+            document.getElementById("radar_btn").onclick = function () {
+                <!--$.post("radar_img");-->
+                document.getElementById("radar_img").src = {{ url_for('radar_img') }}+'?/' + new Date().getTime();}
+
+</script>
+</body>
+
+</html>
+

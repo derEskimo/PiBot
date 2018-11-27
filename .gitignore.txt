@@ -1,0 +1,4 @@
+__pycache__
+StepperLib.pyc
+test.jpg
+.idea

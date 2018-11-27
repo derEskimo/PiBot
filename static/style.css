@@ -1,0 +1,27 @@
+﻿/*Allgemein*/
+html {
+    /* To make use of full height of page*/
+    min-height: 100%;
+    margin: 0;
+}
+body {
+    min-height: 100%;
+    margin: 0;
+    background-color: white;
+}
+
+/* Prevent text selection */
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+/*remove orange focus-outline*/
+div:focus, div:active, button:focus, button:active, select:focus, select:active {
+    outline: none;
+}
+
+/*crop cam img*/
+.centered-and-cropped { object-fit: cover }
